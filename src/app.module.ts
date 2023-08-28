@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
+import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { ImagesService } from './services/images/images.service';
+import { BreedsService } from './services/breeds/breeds.service';
 import Config from './config';
 
 @Module({
@@ -10,8 +12,9 @@ import Config from './config';
       isGlobal: true,
       load: [Config],
     }),
+    HttpModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [ImagesService, BreedsService],
 })
 export class AppModule {}
