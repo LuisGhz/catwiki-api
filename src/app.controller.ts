@@ -1,12 +1,27 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Get, Query } from '@nestjs/common';
+import { BreedsService } from './services/breeds/breeds.service';
+import { ImagesService } from './services/images/images.service';
 
-@Controller()
+@Controller('/api')
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly _imagesService: ImagesService,
+    private readonly _breedsService: BreedsService,
+  ) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  getCats() {
+    return this._imagesService.getCats();
+  }
+
+  @Get('/breeds')
+  getBreeds() {
+    return this._breedsService.getAll();
+  }
+
+  @Get('/search-by-breed')
+  searchByBreed(@Query('breed') breed: string | undefined) {
+    if (!breed) throw new Error('Breed not provided');
+    return this._imagesService.searchByBreed(breed);
   }
 }
